@@ -1,9 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { logger } from './common/middleware/logger_fun.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // グローバルミドルウェア
+  app.use(logger);
 
   const config = new DocumentBuilder()
     .setTitle('Cats example')
