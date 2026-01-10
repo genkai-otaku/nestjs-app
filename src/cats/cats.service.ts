@@ -27,4 +27,8 @@ export class CatsService {
   remove(id: number) {
     return `This action removes a #${id} cat`;
   }
+
+  edit(id: number): string {
+    return `This action updates a #${id} cat`;
+  }
 }

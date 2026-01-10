@@ -40,4 +40,9 @@ export class CatsController {
   remove(@Param('id') id: string) {
     return this.catsService.remove(+id);
   }
+
+  @Get('edit/:id')
+  edit(@Param('id') id: number): string {
+    return this.catsService.edit(+id);
+  }
 }
