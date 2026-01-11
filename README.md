@@ -1,98 +1,252 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# NestJS App
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+NestJS + Prisma + PostgreSQL を使用したアプリケーションです。
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## セットアップ
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
+### 1. 依存関係のインストール
 
 ```bash
-$ npm install
+npm install
 ```
 
-## Compile and run the project
+### 2. DockerでPostgreSQLを起動
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+docker-compose up -d
 ```
 
-## Run tests
+### 3. 環境変数の設定
+
+`.env`ファイルを作成し、データベース接続情報を設定してください：
+
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5433/nestjs-app?schema=public"
+```
+
+### 4. Prismaマイグレーションの実行
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npx prisma migrate dev
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 5. Prisma Clientの生成
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npx prisma generate
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 6. アプリケーションの起動
 
-## Resources
+```bash
+npm run start
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+アプリケーションは `http://localhost:3000` で起動します。
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## Prismaコマンド
 
-## Support
+### マイグレーション
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+# 開発環境でマイグレーションを作成・適用
+npx prisma migrate dev
 
-## Stay in touch
+# マイグレーション名を指定して作成
+npx prisma migrate dev --name migration_name
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+# 本番環境でマイグレーションを適用
+npx prisma migrate deploy
 
-## License
+# マイグレーションの状態を確認
+npx prisma migrate status
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Prisma Client
+
+```bash
+# Prisma Clientを生成
+npx prisma generate
+
+# Prisma Clientを再生成（スキーマ変更後）
+npx prisma generate
+```
+
+### データベース操作
+
+```bash
+# Prisma Studioを起動（GUIでデータベースを操作）
+npx prisma studio
+
+# データベースをリセット（全データ削除）
+npx prisma migrate reset
+
+# データベースのスキーマをプッシュ（マイグレーションなし）
+npx prisma db push
+
+# データベースのスキーマをプル（既存DBからスキーマを取得）
+npx prisma db pull
+```
+
+### その他
+
+```bash
+# フォーマット
+npx prisma format
+
+# バリデーション
+npx prisma validate
+```
+
+## Dockerコマンド
+
+### コンテナの起動・停止
+
+```bash
+# コンテナを起動（バックグラウンド）
+docker-compose up -d
+
+# コンテナを停止
+docker-compose down
+
+# コンテナを停止してボリュームも削除
+docker-compose down -v
+
+# コンテナの状態を確認
+docker-compose ps
+
+# ログを確認
+docker-compose logs -f postgres
+```
+
+### データベースへの接続
+
+```bash
+# PostgreSQLコンテナに接続
+docker-compose exec postgres psql -U postgres -d nestjs-app
+
+# または直接接続
+psql -h localhost -p 5433 -U postgres -d nestjs-app
+```
+
+### その他
+
+```bash
+# コンテナを再起動
+docker-compose restart
+
+# コンテナのログをリアルタイムで確認
+docker-compose logs -f
+
+# コンテナを再ビルド
+docker-compose up -d --build
+```
+
+## NestJS CLIコマンド
+
+### プロジェクト生成
+
+```bash
+# 新しいプロジェクトを作成
+nest new project-name
+
+# 新しいモジュールを生成
+nest generate module module-name
+nest g module module-name
+
+# 新しいコントローラーを生成
+nest generate controller controller-name
+nest g controller controller-name
+
+# 新しいサービスを生成
+nest generate service service-name
+nest g service service-name
+
+# 新しいガードを生成
+nest generate guard guard-name
+nest g guard guard-name
+
+# 新しいミドルウェアを生成
+nest generate middleware middleware-name
+nest g middleware middleware-name
+
+# 新しいフィルターを生成
+nest generate filter filter-name
+nest g filter filter-name
+
+# 新しいインターセプターを生成
+nest generate interceptor interceptor-name
+nest g interceptor interceptor-name
+
+# 新しいパイプを生成
+nest generate pipe pipe-name
+nest g pipe pipe-name
+
+# 新しいデコレーターを生成
+nest generate decorator decorator-name
+nest g decorator decorator-name
+```
+
+### 開発・ビルド
+
+```bash
+# 開発モードで起動（ウォッチモード）
+npm run start
+# または
+nest start
+
+# デバッグモードで起動
+npm run start:debug
+
+# 本番ビルド
+npm run build
+# または
+nest build
+
+# 本番モードで起動
+npm run start:prod
+```
+
+### その他
+
+```bash
+# 利用可能なコマンドを確認
+nest --help
+
+# バージョンを確認
+nest --version
+```
+
+## よく使うnpmスクリプト
+
+```bash
+# 開発サーバー起動（ウォッチモード）
+npm run start
+
+# デバッグモードで起動
+npm run start:debug
+
+# 本番ビルド
+npm run build
+
+# 本番モードで起動
+npm run start:prod
+
+# コードフォーマット
+npm run format
+
+# リンター実行
+npm run lint
+
+# テスト実行
+npm run test
+
+# テスト（ウォッチモード）
+npm run test:watch
+
+# テスト（カバレッジ）
+npm run test:cov
+
+# E2Eテスト
+npm run test:e2e
+```
