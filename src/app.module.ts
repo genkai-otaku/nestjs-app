@@ -5,9 +5,16 @@ import { UserModule } from './user/user.module';
 import { CatsModule } from './cats/cats.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { PrismaModule } from './prisma/prisma.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [AuthModule, UserModule, CatsModule, PrismaModule],
+  imports: [
+    AuthModule,
+    UserModule,
+    CatsModule,
+    PrismaModule,
+    ConfigModule.forRoot(),
+  ],
   controllers: [],
   providers: [],
 })
