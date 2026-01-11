@@ -6,6 +6,8 @@ import { CatsModule } from './cats/cats.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
+// import { GraphQLModule } from '@nestjs/graphql';
+// import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
   imports: [
@@ -14,6 +16,9 @@ import { ConfigModule } from '@nestjs/config';
     CatsModule,
     PrismaModule,
     ConfigModule.forRoot(),
+    // GraphQLModule.forRoot<ApolloDriverConfig>({
+    //   driver: ApolloDriver,
+    // }),
   ],
   controllers: [],
   providers: [],
