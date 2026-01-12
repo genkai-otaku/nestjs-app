@@ -15,4 +15,8 @@ export class UserRepository {
       },
     });
   }
+
+  async findAll() {
+    return this.prismaService.user.findMany();
+  }
 }
